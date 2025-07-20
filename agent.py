@@ -29,7 +29,7 @@ class Agent():
             print(log_message)
             with open(self.LOG_FILE, 'w') as log_file:
                 log_file.write(f"{start_time.strftime(DATE_FORMAT)}: {log_message}\n")
-        env = gymnasium.make("CartPole-v1", render_mode="human" if render else None)
+        env = gymnasium.make(self.env_id, render_mode="human" if render else None, **self.env_make_params)
         # env = gymnasium.make("FlappyBird-v0", render_mode="human", use_lidar=False)
         num_actions = env.action_space.n
         num_states = env.observation_space.shape[0]
@@ -158,6 +158,8 @@ class Agent():
         with open(config_file, 'r') as file:
             all_hyperparams = yaml.safe_load(file)
             hyperparams = all_hyperparams[hyperparams_set]
+        self.env_make_params = hyperparams.get('env_make_params', {})
+        self.env_id = hyperparams['env_id']
         self.replay_memory_size = hyperparams['replay_memory_size']
         self.batch_size = hyperparams['batch_size']
         self.epsilon_start = hyperparams['epsilon_start']
