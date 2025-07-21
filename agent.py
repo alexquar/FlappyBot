@@ -12,6 +12,7 @@ import argparse
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import os
+import flappy_bird_gymnasium
 import numpy as np
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S" 
 RUNS_DIR = "runs"
@@ -36,14 +37,13 @@ class Agent():
         rewards_per_epoc = []
         epsilon_history = []
         # Create the DQN model
-        policy_dqn = DQN(input_dim=num_states, output_dim=num_actions).to(device=device)
+        policy_dqn = DQN(num_states, num_actions, self.fc1_nodes, self.enable_dueling_dqn).to(device=device)
         
         
         if is_training:
             memory = ReplayMemory(self.replay_memory_size, seed=42)
             epsilon = self.epsilon_start
-            
-            target_dqn = DQN(input_dim=num_states, output_dim=num_actions).to(device=device)
+            target_dqn = DQN(num_states, num_actions, self.fc1_nodes, self.enable_dueling_dqn).to(device=device)
             #copies the weights of the policy network to the target network
             target_dqn.load_state_dict(policy_dqn.state_dict())
             
@@ -170,13 +170,13 @@ class Agent():
         self.optimizer = None # Placeholder
         self.learning_rate = hyperparams['learning_rate']
         self.discount_factor = hyperparams['discount_factor']
-        self.enable_double_dqn = False
+        self.enable_double_dqn = hyperparams['enable_double_dqn']
         self.stop_on_reward     = hyperparams['stop_on_reward']         # stop training after reaching this number of rewards
-        
+        self.fc1_nodes = hyperparams['fc1_nodes']
         self.LOG_FILE = os.path.join(RUNS_DIR, f"{hyperparams_set}.log")
         self.MODEL_FILE = os.path.join(RUNS_DIR, f"{hyperparams_set}.pt")
         self.GRAPH_FILE = os.path.join(RUNS_DIR, f"{hyperparams_set}.png")
-        
+        self.enable_dueling_dqn = hyperparams.get('enable_dueling_dqn', True)
     def save_graph(self, rewards_per_episode, epsilon_history):
         # Save plots
         fig = plt.figure(1)
