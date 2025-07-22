@@ -1,31 +1,51 @@
 # FlappyBot 🤖
 
-A deep learning model using reinforcement learning to master Flappy Bird! This project demonstrates how AI can learn to play games through experience.
+A PyTorch-based Deep Q-Network (DQN) agent trained to master **Flappy Bird** and other games offered on the **Gymnasium** platform using modern reinforcement learning techniques.
 
-## Overview 🎮
-The model learns to navigate the bird through pipes using reinforcement learning techniques, improving its performance over time.
+This project demonstrates how AI agents can learn **optimal policies** through self-play using **experience replay**, **epsilon-greedy exploration**, and advanced Q-learning strategies like **Double DQN** and **Dueling DQN**.
 
-## Setup 🚀
+---
+
+## 🎮 Overview
+
+FlappyBot learns to play the classic side-scrolling game *Flappy Bird* by interacting with a Gym-style environment. Over thousands of episodes, the bot improves its decision-making by learning from rewards and penalties.
+
+---
+
+## 🚀 Features
+
+✅ Deep Q-Learning  
+✅ Experience Replay  
+✅ Epsilon-Greedy Exploration  
+✅ Target Network Syncing  
+✅ Double DQN (optional)  
+✅ Dueling DQN (optional)  
+✅ PyTorch-based architecture  
+✅ Fully configurable via YAML  
+✅ Reward and epsilon tracking graphs  
+✅ Model saving & loading
+
+---
+
+## 📦 Setup
 
 ### Prerequisites
+
 - Python 3.7+
-- pip package manager
+- `pip` package manager
+- PyTorch
 
+ 
 ### Installation
+
 ```bash
+git clone https://github.com/yourusername/flappybot.git
+cd flappybot
 pip install -r requirements.txt
-```
 
-### Running the Game
-```bash
-flappy_bird_gymnasium
-```
+### Running the bots/training
 
-## How It Works 🧠
-The model uses reinforcement learning to:
-- Learn from each game attempt
-- Optimize its strategy
-- Improve scores over time
-
-## Contributing 🤝
-Feel free to open issues or submit pull requests to help improve the project!
+- Add config to hyperparams.yml for a new game 
+- For easy training add the new game to the launch.json file and run from the run and debug tab of vscode 
+- Model training info is added to the runs directory
+- To run a model just run python agent.py {game_name}
